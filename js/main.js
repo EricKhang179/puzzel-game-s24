@@ -1,46 +1,39 @@
 console.log("JavaScript File is linked");
 
-let temperature = 25;
+//variables
+const theButtons = document.querySelectorAll("#buttonHolder img"),
+    puzzleBoard = document.querySelector(".puzzle-board"),
+    puzzlePieces = document.querySelectorAll(".puzzle-pieces img"),
+    dropZones = document.querySelectorAll(".drop-zone");   
+let draggedPiece;
 
-//basic if statement 
-if(temperature > 30) {
-    console.log("Time to crank the AC!")
+function changeBGImage() {
+    //console.log("changeBGImage called");
+    //url('../images/backGround0.jpg');
+    puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`
 }
 
-//if else statement 
-let age = 18;
-
-if(age < 19) {
-    console.log("Sorry, you are not old enough to enter bar");
-} else {
-  console.log("You are 19 or older, so come on it");
+function handleStartDrag() {
+    console.log(`started dragging ${this}`);
+    draggedPiece = this;
 }
 
-// if, else if, else 
-let grade = 90;
-
-if(grade >= 90){
-    console.log("A+");
-}else if(grade >= 80) {
-    console.log("A");
-}else if(grade >=70) {
-    console.log("B");
-}else {
-    console.log("Failing Grade");
+function handleOver(e) {
+    e.preventDefault();
+    console.log("Dragged Over");
 }
 
-//multiple if statement (Can all evaluate to true)
-
-let mathGrade = 90;
-
-if(mathGrade >= 90){
-    console.log("Math grade is A+");
+function handleDrop(e) {
+    e.preventDefault();
+    this.appendChild(draggedPiece);
+    console.log("dropped something");
 }
 
-if(mathGrade >= 80){
-    console.log("Math grade is A");
-}
+//event Listeners
+theButtons.forEach(button => button.addEventListener("click", changeBGImage)); 
 
-if(mathGrade >= 70){
-    console.log("Math grade is B");
-}
+puzzlePieces.forEach(piece => piece.addEventListener("dragstart", handleStartDrag));
+
+dropZones.forEach(zone => zone.addEventListener("dragover", handleOver));
+
+dropZones.forEach(zone => zone.addEventListener("drop", handleDrop));
